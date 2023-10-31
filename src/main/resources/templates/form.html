@@ -27,7 +27,7 @@
 
 					<div class="form-group row">
 						<label class="col-sm-3 col-form-label"
-							th:text="#{text.cliente.nombre}">Nombre</label>
+							th:text="#{text.cliente.nombre}">First Name</label>
 
 						<div class="col-sm-9">
 							<input type="text" th:field="*{firstName}" class="form-control"
@@ -40,7 +40,7 @@
 
 					<div class="form-group row">
 						<label class="col-sm-3 col-form-label"
-							th:text="#{text.cliente.apellido}">Apellido</label>
+							th:text="#{text.cliente.apellido}">Last Name</label>
 						<div class="col-sm-9">
 							<input type="text" th:field="*{lastName}" class="form-control"
 								th:errorclass="'form-control alert-danger'" /> <small
@@ -62,7 +62,7 @@
 
 					<div class="form-group row">
 						<label class="col-sm-3 col-form-label"
-							th:text="#{text.cliente.createAt}">Fecha</label>
+							th:text="#{text.cliente.createAt}">Date</label>
 						<div class="col-sm-9">
 							<input type="date" class="form-control" th:field="*{createAt}"
 								th:errorclass="'form-control alert-danger'" /> <small
@@ -73,7 +73,7 @@
 
 					<div class="form-group row">
 						<label for="file" class="col-sm-3 col-form-label"
-							th:text="#{text.cliente.foto}">Foto</label>
+							th:text="#{text.cliente.foto}">Photo</label>
 						<div class="col-sm-9">
 							<input type="file" name="file"
 								class="form-control custom-file-input" id="filePhoto" /> <label

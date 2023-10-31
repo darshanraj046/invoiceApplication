@@ -19,18 +19,6 @@
 						<i class="fas fa-user-plus mr-1"></i>
 						<span th:text="' ' + #{text.cliente.crear}"></span>
 					</a>
-					<a class="col-lg-2 btn btn-sm-block btn-outline-light-green btn-md float-right mx-2 mb-4"
-						th:href="@{'/list'(format=xml)}">
-						<i class="fas fa-file-code mr-1"></i> XML
-					</a>
-					<a class="col-lg-2 btn btn-sm-block btn-outline-blue-grey btn-md float-right mx-2 mb-4"
-						th:href="@{'/list'(format=csv)}">
-						<i class="fas fa-file-csv mr-1"></i> CSV
-					</a>
-					<a class="col-lg-2 btn btn-sm-block btn-outline-deep-orange btn-md float-right mx-2 mb-4"
-						th:href="@{'/list'(format=json)}">
-						<i class="fas fa-file-code mr-1"></i> JSON
-					</a>
 				</div>
 				<div class="table-responsive">
 					<table

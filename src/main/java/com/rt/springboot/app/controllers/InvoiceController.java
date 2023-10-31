@@ -84,7 +84,7 @@ public class InvoiceController {
 	}
 
 	/* ----- Autocomplete for Finding Products (autocomplete-products.js)----- */
-	@GetMapping(value = "/load-products/{term}", produces = { "application/json" })
+	@GetMapping(value = "/load-products/{term}", produces = "application/json")
 	public @ResponseBody List<Product> loadProducts(@PathVariable String term) {
 		return clientService.findByName(term);
 	}
@@ -92,7 +92,7 @@ public class InvoiceController {
 	/* ----- Save Invoice ----- */
 	@PostMapping("/form")
 	public String save(@Valid Invoice invoice, BindingResult result, Model model,
-			@RequestParam(name = "item_id[]", required = false) Long[] itemId,
+			@RequestParam(name = "item_id[]", required = false) String[] itemId,
 			@RequestParam(name = "amount[]", required = false) Integer[] amount, RedirectAttributes flash,
 			SessionStatus status, Locale locale) {
 
@@ -108,7 +108,7 @@ public class InvoiceController {
 		}
 
 		for (int i = 0; i < itemId.length; i++) {
-			Product product = clientService.findProductById(itemId[i]);
+			Product product = clientService.findProductById(Long.valueOf(itemId[i]));
 
 			ItemInvoice line = new ItemInvoice();
 			line.setAmount(amount[i]);

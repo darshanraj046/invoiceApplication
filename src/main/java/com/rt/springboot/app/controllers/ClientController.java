@@ -1,5 +1,6 @@
 package com.rt.springboot.app.controllers;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Collection;
@@ -70,6 +71,8 @@ public class ClientController {
 			resource = uploadFileService.load(filename);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		}
 
 		return ResponseEntity.ok()
@@ -102,23 +105,21 @@ public class ClientController {
 		// 2 Ways of seeing Roles
 		// 1st Way
 		if (authentication != null) {
-			logger.info("Hola usuario autenticado, tu username es: " + authentication.getName());
+			logger.info("Hello authenticated user, your username is: " + authentication.getName());
 		}
 
 		// 2nd Way(static)
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
 			logger.info(
-					"Utilizando forma estatica 'SecurityContextHolder.getContext().getAuthentication();': Usuario autenticado, username: "
-			+ auth.getName());
+					"Using static form 'SecurityContextHolder.getContext().getAuthentication();': Authenticated user, username: "
+							+ auth.getName());
 		}
 
-		// 3 Ways of assigning Roles
-		// 1st Way
 		if (hasRole("ROLE_ADMIN")) {
-			logger.info("Hola " + auth.getName() + " tienes acceso");
+			logger.info("Hello " + auth.getName() + " you have access");
 		} else {
-			logger.info("Hola " + auth.getName() + " NO tienes acceso");
+			logger.info("Hello " + auth.getName() + " You do not have access");
 		}
 
 		// 2nd Way
@@ -127,17 +128,17 @@ public class ClientController {
 
 		if (securityContext.isUserInRole("ADMIN")) {
 			logger.info(
-					"Forma usando SecurityContextHolderAwareRequestWrapper: Hola " + auth.getName() + " tienes acceso");
+					"Form using SecurityContextHolderAwareRequestWrapper: Hello " + auth.getName() + " you have access");
 		} else {
-			logger.info("Forma usando SecurityContextHolderAwareRequestWrapper: Hola " + auth.getName()
-					+ " NO tienes acceso");
+			logger.info("Form using SecurityContextHolderAwareRequestWrapper: Hello " + auth.getName()
+					+ "You do NOT have access");
 		}
 
 		// 3rd Way
 		if (request.isUserInRole("ROLE_ADMIN")) {
-			logger.info("Forma usando HttpServletRequest: Hola " + auth.getName() + " tienes acceso");
+			logger.info("Form using HttpServletRequest: Hello " + auth.getName() + " you have access");
 		} else {
-			logger.info("Forma usando HttpServletRequest: Hola " + auth.getName() + " NO tienes acceso");
+			logger.info("Form using HttpServletRequest: Hello " + auth.getName() + " You do NOT have access");
 		}
 
 		Pageable pageRequest = PageRequest.of(page, 5);
@@ -263,15 +264,6 @@ public class ClientController {
 		if (auth == null) { return false; }
 		Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
 
-//		Check user authority
-//		 for(GrantedAuthority authority : authorities) {
-//		 if(role.equals(authority.getAuthority())) { logger.info("Hola " +
-//		 auth.getName() + " tu role es: " + authority.getAuthority()); return true; }
-//		 }
-//		 
-//		 return false;
-
-		// contains(GrantedAuthority) returns true or false if has the collection element or not
 		return authorities.contains(new SimpleGrantedAuthority(role));
 
 	}

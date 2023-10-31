@@ -1,6 +1,7 @@
 package com.rt.springboot.app.models.service;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -23,19 +24,28 @@ public class UploadFileServiceImpl implements IUploadFileService {
 	private final static String UPLOADS_FOLDER = "uploads";
 
 	@Override
-	public Resource load(String filename) throws MalformedURLException {
+	public Resource load(String filename) throws MalformedURLException, FileNotFoundException {
 		Path pathphoto = getPath(filename);
 		log.info("pathPhoto: " + pathphoto);
-		Resource resource = null;
 
-		resource = new UrlResource(pathphoto.toUri());
-
-		if (!resource.exists() && !resource.isReadable()) {
-			throw new RuntimeException("Error: can not load image" + pathphoto.toString());
+		if (!Files.exists(pathphoto)) {
+			log.error("File not found: " + pathphoto);
+			throw new FileNotFoundException("Error: File not found");
 		}
 
-		return resource;
+		try {
+			Resource resource = new UrlResource(pathphoto.toUri());
+			if (!resource.exists() || !resource.isReadable()) {
+				log.error("Error: Cannot read the image resource");
+				throw new RuntimeException("Error: Can't load image");
+			}
+			return resource;
+		} catch (MalformedURLException e) {
+			log.error("Malformed URL: " + e.getMessage());
+			throw e;
+		}
 	}
+
 
 	@Override
 	public String copy(MultipartFile file) throws IOException {
